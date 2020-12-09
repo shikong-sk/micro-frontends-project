@@ -1,14 +1,25 @@
 <template>
-  <!--<div id="nav">-->
-  <!--  <router-link to="/">Home</router-link> |-->
-  <!--  <router-link to="/about">About</router-link>-->
-  <!--</div>-->
-  <!--<router-view/>-->
   <div>
     <div style="background:deepskyblue">微前端主框架</div>
+    <nav-bar></nav-bar>
     <div id="vue"></div>
+    <div id="ncda"></div>
+    <router-view/>
   </div>
 </template>
+
+<script lang="ts">
+  import { defineComponent } from 'vue';
+  import navBar from "@/components/nav-bar/index.vue";
+
+  export default defineComponent({
+    name: 'App',
+    components:{navBar},
+    props: {
+      msg: String,
+    },
+  });
+</script>
 
 <style>
 #app {
