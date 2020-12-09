@@ -3,7 +3,7 @@
     <div style="background:deepskyblue">微前端主框架</div>
     <nav-bar></nav-bar>
     <div id="vue"></div>
-    <div id="ncda"></div>
+    <div id="ncda" style="position: relative;border: #008ac7"></div>
     <router-view/>
   </div>
 </template>

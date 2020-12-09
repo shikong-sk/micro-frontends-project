@@ -14,22 +14,23 @@ import { registerMicroApps, start,loadMicroApp }     from 'qiankun';
 const apps = [
 	{
 		name:"vue",
-		entry: "http://192.168.1.100:10001/",
+		entry: "http://localhost:10001/",
 		container:"#vue",
 		activeRule:"/vue"
-	},{
+	}, {
 		name:"ncda",
-		entry: "http://192.168.1.100:10002/ncda/index",
+		entry: "http://localhost:10002/ncda/",
 		container:"#ncda",
-		activeRule:"/micro-ncda"
-	}
+		activeRule:"/ncda"
+	},
 ]
 
 
 const excludeAssets:Array<string> = [
 	"https://api.map.baidu.com/getscript?v=3.0&ak=DCfcc8d7f591e4106fb6d5d7390df429",
 	"http://api.map.baidu.com/library/GeoUtils/1.2/src/GeoUtils_min.js",
-	"http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"
+	"http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js",
+	"http://api.map.baidu.com/?qt=verify&ak=DCfcc8d7f591e4106fb6d5d7390df429&callback=BMap._rd._cbk74925"
 ];
 
 const customImportConfig = {
@@ -62,7 +63,7 @@ const customImportConfig = {
 function insertEle(url){
 	let head = document.getElementsByTagName('head')[0]
 	let el = document.createElement('script')
-	let id = +new Date() + Math.random()
+	let id = + new Date() + Math.random()
 
 	el.src = url
 	el.id = String(id)
