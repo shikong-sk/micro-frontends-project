@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<div style="background:deepskyblue">微前端主框架</div>
 		<nav-bar v-model:collapse="collapse" style="z-index: 999999"></nav-bar>
 		<router-view/>
 
@@ -37,9 +36,9 @@
 			collapseChange(collapse:boolean){
 				if(collapse){
 					// @ts-ignore
-					this.$refs.ncda.style.width = "calc(100vw - 85px)";
+					this.$refs.ncda.style.width = "calc(100vw - 82px)";
 					// @ts-ignore
-					this.$refs.ncda.style.left = "65px";
+					this.$refs.ncda.style.left = "56px";
 				} else {
 					// @ts-ignore
 					this.$refs.ncda.style.width = "calc(100vw - 218px)";

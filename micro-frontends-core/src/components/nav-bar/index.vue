@@ -1,10 +1,14 @@
 <template>
 	<div class="nav-bar">
-		<el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-			<el-menu-item index="0">
-				<i class="el-icon-s-unfold"></i>
-				<template #title>切换导航栏</template>
-			</el-menu-item>
+		<el-menu default-active="1-4-1" class="el-menu-vertical" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+			<div>
+				<el-button style="border: none;width: 100%"
+				           :icon="isCollapse?'el-icon-s-unfold':'el-icon-s-fold'"
+				           @click="collapseChange">
+							{{isCollapse?'':'收起导航栏'}}
+				</el-button>
+			</div>
+
 			<el-submenu index="1">
 				<template #title>
 					<i class="el-icon-location"></i>
@@ -67,20 +71,27 @@
 			},
 			handleClose(key, keyPath) {
 				console.log(key, keyPath);
+			},
+			collapseChange() {
+				this.isCollapse = !this.isCollapse;
 			}
 		}
 	}
 </script>
 
 <style scoped>
-	.el-menu-vertical-demo{
-		min-height: 90vh;
+	.el-menu-vertical{
+		height: 100%;
 	}
-	.el-menu-vertical-demo:not(.el-menu--collapse) {
+	.el-menu-vertical:not(.el-menu--collapse) {
 		width: 200px;
 	}
 
 	.nav-bar{
 		position: fixed;
+		height: 100vh;
+		z-index: 9999999;
+		top: 0;
+		left: 0;
 	}
 </style>
