@@ -18,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-  history: createWebHistory("/vue"),
+  history: createWebHistory("/vue/"),
   routes
 })
 

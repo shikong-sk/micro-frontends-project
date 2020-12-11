@@ -1,10 +1,10 @@
 <template>
 	<div class="nav-bar">
-		<el-radio-group v-model="isCollapse" style="margin-bottom: 20px;">
-			<el-radio-button :label="false">展开</el-radio-button>
-			<el-radio-button :label="true">收起</el-radio-button>
-		</el-radio-group>
 		<el-menu default-active="1-4-1" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" :collapse="isCollapse">
+			<el-menu-item index="0">
+				<i class="el-icon-s-unfold"></i>
+				<template #title>切换导航栏</template>
+			</el-menu-item>
 			<el-submenu index="1">
 				<template #title>
 					<i class="el-icon-location"></i>
@@ -41,11 +41,25 @@
 
 <script>
 	export default {
-		name: "nav-bar",
+		name: "navBar",
+		props:{
+			collapse:{
+				type:Boolean,
+				default: true
+			}
+		},
+		computed:{
+			isCollapse:{
+				get:function(){
+					return this.collapse;
+				},
+				set:function(v){
+					this.$emit("update:collapse",v);
+				}
+			}
+		},
 		data() {
-			return {
-				isCollapse: true
-			};
+			return {};
 		},
 		methods: {
 			handleOpen(key, keyPath) {

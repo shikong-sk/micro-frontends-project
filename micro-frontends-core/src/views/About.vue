@@ -7,4 +7,26 @@
   <div class="about">
     <h1>This is an about page</h1>
   </div>
+  <div ref="sub"></div>
 </template>
+
+<script lang="ts">
+  import { loadMicroApp } from "qiankun";
+  import {defineComponent} from "vue";
+
+  export default defineComponent({
+    mounted() {
+      this.$nextTick(()=>{
+        // 在内部页面作为某个组件动态引入
+        let app = loadMicroApp({
+          name:"subApp",
+          entry:"http://localhost:10001/vue",
+          // @ts-ignore
+          container: this.$refs.sub
+        })
+
+        console.log(app);
+      })
+    }
+  })
+</script>
