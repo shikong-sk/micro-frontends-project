@@ -5,9 +5,14 @@ import store       from './store';
 import ElementPlus from "element-plus";
 import 'element-plus/lib/theme-chalk/index.css';
 
+import Api from "@/api";
+
 const app = createApp(App).use(store).use(router);
+// 全局注册 API
+app.config.globalProperties.$api = Api;
 app.use(ElementPlus);
 app.mount('#app');
+console.log(app);
 
 // 乾坤微前端框架
 import {
@@ -17,7 +22,8 @@ import {
 	registerMicroApps,
 	RegistrableApp,
 	start
-} from 'qiankun';
+}          from 'qiankun';
+
 
 const apps: RegistrableApp<any>[] = [
 	{

@@ -8,6 +8,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@types/axios": "^0.14.0",
     "core-js": "^3.6.5",
     "element-plus": "^1.0.1-beta.6",
     "qiankun": "^2.3.2",
