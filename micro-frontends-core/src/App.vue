@@ -9,45 +9,46 @@
 </template>
 
 <script lang="ts">
-	import {defineComponent} from 'vue';
-	import navBar            from "@/components/nav-bar/index.vue";
+    import {defineComponent} from 'vue';
+    import navBar            from "@/components/nav-bar/index.vue";
 
-	export default defineComponent({
-		name: 'App',
-		components: {navBar},
-		props: {
-			msg: String,
-		},
-		data() {
-			return {
-				collapse: true,
-			};
-		},
-		mounted() {
-			this.collapseChange(this.collapse);
-			console.log("route",this.$route);
-		},
-		watch: {
-			collapse(v:boolean) {
-				this.collapseChange(v);
-			}
-		},
-		methods:{
-			collapseChange(collapse:boolean){
-				if(collapse){
-					// @ts-ignore
-					this.$refs.ncda.style.width = "calc(100vw - 82px)";
-					// @ts-ignore
-					this.$refs.ncda.style.left = "56px";
-				} else {
-					// @ts-ignore
-					this.$refs.ncda.style.width = "calc(100vw - 218px)";
-					// @ts-ignore
-					this.$refs.ncda.style.left = "200px";
-				}
-			}
-		}
-	});
+    export default defineComponent({
+        name      : 'App',
+        components: {navBar},
+        props     : {
+            msg: String,
+        },
+        data() {
+            return {
+                collapse: true,
+            };
+        },
+        mounted() {
+            console.log("MainApp", this);
+            this.collapseChange(this.collapse);
+            console.log("route", this.$route);
+        },
+        watch     : {
+            collapse(v: boolean) {
+                this.collapseChange(v);
+            }
+        },
+        methods   : {
+            collapseChange(collapse: boolean) {
+                if (collapse) {
+                    // @ts-ignore
+                    this.$refs.ncda.style.width = "calc(100vw - 82px)";
+                    // @ts-ignore
+                    this.$refs.ncda.style.left = "56px";
+                } else {
+                    // @ts-ignore
+                    this.$refs.ncda.style.width = "calc(100vw - 218px)";
+                    // @ts-ignore
+                    this.$refs.ncda.style.left = "200px";
+                }
+            }
+        }
+    });
 </script>
 
 <style>

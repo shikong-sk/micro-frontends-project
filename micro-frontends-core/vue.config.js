@@ -41,24 +41,31 @@ module.exports = {
                     "/relation/api/": "",
                 },
             },
-            "/hotspot/api/": {
-                target: "http://192.168.0.106:8018/hotspot/",
+            // "/hotspot/api/": {
+            //     target: "http://192.168.0.106:8018/hotspot/",
+            //     changeOrigin: true, //是否进行跨域
+            //     secure: false,
+            //     pathRewrite: {
+            //         "/hotspot/api/": "",
+            //     },
+            // },
+            // "/statistics/api/": {
+            //     target: "http://192.168.0.106:8028/statistics/",
+            //     changeOrigin: true, //是否进行跨域
+            //     secure: false,
+            //     pathRewrite: {
+            //         "/statistics/api/": "",
+            //     },
+            // },
+            // "/config/": {
+            //     target: "http://192.168.1.241:8999",
+            // },
+            "^/base/": {
+                target: "http://localhost:8848/base/",
                 changeOrigin: true, //是否进行跨域
-                secure: false,
                 pathRewrite: {
-                    "/hotspot/api/": "",
+                    "^/base/": "",
                 },
-            },
-            "/statistics/api/": {
-                target: "http://192.168.0.106:8028/statistics/",
-                changeOrigin: true, //是否进行跨域
-                secure: false,
-                pathRewrite: {
-                    "/statistics/api/": "",
-                },
-            },
-            "/config/": {
-                target: "http://192.168.1.241:8999",
             },
         }
     }

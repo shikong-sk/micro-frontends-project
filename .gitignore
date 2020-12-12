@@ -2,3 +2,4 @@
 /.svn
 /.idea
 /node_modules
+/mock-service/golang/.idea

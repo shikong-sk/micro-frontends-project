@@ -12,7 +12,7 @@ export function getInstance(axiosRequestConfig: AxiosRequestConfig) : AxiosInsta
 function successCB(response: AxiosResponse | Promise<AxiosResponse>): AxiosResponse | Promise<AxiosResponse> {
     function processResponse(response: AxiosResponse) {
         if (response.status === 200) { // 响应成功
-            return response.data;
+            return response;
         } else {
             return Promise.reject(response);
         }

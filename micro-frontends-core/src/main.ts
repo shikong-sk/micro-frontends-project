@@ -5,11 +5,11 @@ import store       from './store';
 import ElementPlus from "element-plus";
 import 'element-plus/lib/theme-chalk/index.css';
 
-import Api from "@/api";
+import api from "@/api";
 
 const app = createApp(App).use(store).use(router);
 // 全局注册 API
-app.config.globalProperties.$api = Api;
+app.config.globalProperties.$api = api;
 app.use(ElementPlus);
 app.mount('#app');
 console.log(app);
@@ -23,21 +23,6 @@ import {
 	RegistrableApp,
 	start
 }          from 'qiankun';
-
-
-const apps: RegistrableApp<any>[] = [
-	{
-		name: "vue",
-		entry: "http://localhost:10001/",
-		container: "#vue",
-		activeRule: "/vue"
-	}, {
-		name: "ncda",
-		entry: "http://localhost:10002/ncda/",
-		container: "#ncda",
-		activeRule: "/ncda"
-	},
-];
 
 // 排除的 特殊的动态加载的微应用资源 JavaScript 资源 , 不被 qiankun 劫持处理
 declare type ExcludeJavaScriptAsset = { url: string, async?: boolean, defer?: boolean };
@@ -173,6 +158,21 @@ const appLifeCycles: FrameworkLifeCycles<any> = {
 	}
 };
 
-registerMicroApps(apps, appLifeCycles);
+let registerApps: RegistrableApp<any>[] = [];
 
-start(customImportConfig);
+new Promise<void>((resolve)=>{
+	// 从 外部接口 载入 子应用资源信息
+	api.baseApi.getConfig().then((response)=>{
+		console.log(response);
+		let res = response.data;
+		let apps = res.apps || [];
+		apps.forEach((app: RegistrableApp<any>)=>{
+			registerApps.push(app)
+		})
+		resolve();
+	})
+}).then(()=>{
+	registerMicroApps(registerApps, appLifeCycles);
+	start(customImportConfig);
+})
+
