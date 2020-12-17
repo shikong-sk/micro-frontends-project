@@ -18,11 +18,49 @@ console.log(app);
 import {
 	FrameworkConfiguration,
 	FrameworkLifeCycles,
-	LoadableApp,
+	initGlobalState,
+	LoadableApp, MicroAppStateActions,
 	registerMicroApps,
 	RegistrableApp,
 	start
-}          from 'qiankun';
+} from 'qiankun';
+
+const globalStateRecord: Record<string, any> = {
+	navIndex: "home",
+	containerReady: false,
+};
+const globalStateActions: MicroAppStateActions = initGlobalState(globalStateRecord);
+let containerReady = false;
+globalStateActions.onGlobalStateChange((state:Record<string, any>, prev:Record<string, any>)=>{
+	console.log("onGlobalStateChange",state,prev);
+	// if (state.containerReady){
+	// 	containerReady = true;
+	// } else {
+	// 	new Promise<boolean>((resolve, reject) => {
+	// 		let count = 0;
+	// 		let waitContainerLoading = () => {
+	// 			count++;
+	// 			if (count > 5) {
+	// 				reject(false);
+	// 			}
+	// 			setTimeout(() => {
+	// 				console.log(globalStateActions, globalStateRecord)
+	// 				globalStateActions.onGlobalStateChange((state) => {
+	// 					if (state.containerReady) {
+	// 						resolve(true);
+	// 					} else {
+	// 						waitContainerLoading();
+	// 					}
+	// 				})
+	// 			}, 0);
+	// 		}
+	// 		waitContainerLoading();
+	// 	}).then((r: boolean) => {
+	// 		containerReady = r;
+	// 	})
+	// }
+})
+export {globalStateActions};
 
 // 排除的 特殊的动态加载的微应用资源 JavaScript 资源 , 不被 qiankun 劫持处理
 declare type ExcludeJavaScriptAsset = { url: string, async?: boolean, defer?: boolean };
@@ -90,6 +128,8 @@ const customImportConfig: FrameworkConfiguration = {
 	}
 };
 
+export {customImportConfig};
+
 // 插入 拦截的 Script 脚本 到主框架的 header 中
 function insertScriptElement(url: RequestInfo) {
 	let head = document.getElementsByTagName('head')[0];
@@ -101,7 +141,7 @@ function insertScriptElement(url: RequestInfo) {
 			let excludeJavaScriptAsset = excludeJavaScriptAssets[i];
 			if (url === excludeJavaScriptAsset.url) {
 				el.src = url;
-				let {async,defer} = excludeJavaScriptAsset;
+				let {async, defer} = excludeJavaScriptAsset;
 				el.async = async || false;
 				el.defer = defer || false;
 				break;
@@ -122,7 +162,7 @@ function insertScriptElement(url: RequestInfo) {
 		}
 		if (!exist) {
 			let targetNode: HTMLElement | null = document.getElementById(String(id));
-			if(targetNode){
+			if (targetNode) {
 				head.removeChild(targetNode);
 			}
 		}
@@ -160,19 +200,24 @@ const appLifeCycles: FrameworkLifeCycles<any> = {
 
 let registerApps: RegistrableApp<any>[] = [];
 
-new Promise<void>((resolve)=>{
+new Promise<void>((resolve) => {
 	// 从 外部接口 载入 子应用资源信息
-	api.baseApi.getConfig().then((response)=>{
+	api.baseApi.getConfig().then((response: any) => {
 		console.log(response);
 		let res = response.data;
 		let apps = res.apps || [];
-		apps.forEach((app: RegistrableApp<any>)=>{
-			registerApps.push(app)
-		})
+		apps.forEach((app: RegistrableApp<any>) => {
+			registerApps.push(app);
+		});
+		store.commit("base/setRegisterApps", registerApps);
+		// @ts-ignore
+		console.log(store.state.base.registerApps);
 		resolve();
-	})
-}).then(()=>{
-	registerMicroApps(registerApps, appLifeCycles);
+	});
+}).then(() => {
+	console.log(store.getters.getRegistrableApps);
+	// @ts-ignore
+	registerMicroApps(store.state.base.registerApps, appLifeCycles);
 	start(customImportConfig);
-})
+});
 

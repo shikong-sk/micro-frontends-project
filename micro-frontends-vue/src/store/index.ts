@@ -1,12 +1,11 @@
-import { createStore } from 'vuex'
+import {createStore} from 'vuex';
+
+let modulesFiles = require.context("./modules", true, /[\.js,\.ts]$/);
+console.log("modulesFiles", modulesFiles);
 
 export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+	modules: {},
+	state: {},
+	mutations: {},
+	actions: {},
+});

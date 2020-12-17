@@ -1,54 +1,46 @@
 <template>
-	<div>
-		<nav-bar v-model:collapse="collapse" style="z-index: 999999"></nav-bar>
+		<nav-bar :collapse="collapse" style="z-index: 999999"></nav-bar>
 		<router-view/>
-
-		<div id="vue"></div>
-		<div id="ncda" style="position: relative;border: #008ac7;min-height:100vh" ref="ncda"></div>
-	</div>
 </template>
 
 <script lang="ts">
-    import {defineComponent} from 'vue';
-    import navBar            from "@/components/nav-bar/index.vue";
+	import {defineComponent, ref} from 'vue';
+	import navBar                 from "@/components/nav-bar/index.vue";
+	import {useStore}             from "vuex";
 
-    export default defineComponent({
-        name      : 'App',
-        components: {navBar},
-        props     : {
-            msg: String,
-        },
-        data() {
-            return {
-                collapse: true,
-            };
-        },
-        mounted() {
-            console.log("MainApp", this);
-            this.collapseChange(this.collapse);
-            console.log("route", this.$route);
-        },
-        watch     : {
-            collapse(v: boolean) {
-                this.collapseChange(v);
-            }
-        },
-        methods   : {
-            collapseChange(collapse: boolean) {
-                if (collapse) {
-                    // @ts-ignore
-                    this.$refs.ncda.style.width = "calc(100vw - 82px)";
-                    // @ts-ignore
-                    this.$refs.ncda.style.left = "56px";
-                } else {
-                    // @ts-ignore
-                    this.$refs.ncda.style.width = "calc(100vw - 218px)";
-                    // @ts-ignore
-                    this.$refs.ncda.style.left = "200px";
-                }
-            }
-        }
-    });
+	export default defineComponent({
+		name: 'App',
+		components: {navBar},
+		props: {
+			msg: String,
+		},
+		setup(){
+			const collapseChange = (collapse: boolean) => {
+				console.log("collapseChange",collapse)
+			};
+			return {
+				$store:useStore(),
+				collapseChange,
+			}
+		},
+		data() {
+			return {
+				collapse: true,
+			};
+		},
+		mounted() {
+			console.log("MainApp", this);
+			this.collapseChange(this.collapse);
+			console.log("route", this.$route);
+		},
+		watch: {
+			collapse(v: boolean) {
+				console.log("collapse",v);
+				this.collapseChange(v);
+			},
+		},
+		methods: {}
+	});
 </script>
 
 <style>

@@ -14,7 +14,7 @@ module.exports = {
             // pathRewrite 中将 /ncda/api/ 替换为空
             "/ncda/api/": {
                 //配置代理地址，前端请求的所有接口都需要带的前缀
-                target:"http://localhost:8848/ncda/",
+                target:"http://localhost:18848/ncda/",
                 // target: "http://192.168.1.241:1080/ncda/",
                 // target: 'http://192.168.2.5:8010/ncda/',
                 changeOrigin: true, //是否进行跨域
@@ -41,27 +41,27 @@ module.exports = {
                     "/relation/api/": "",
                 },
             },
-            // "/hotspot/api/": {
-            //     target: "http://192.168.0.106:8018/hotspot/",
-            //     changeOrigin: true, //是否进行跨域
-            //     secure: false,
-            //     pathRewrite: {
-            //         "/hotspot/api/": "",
-            //     },
-            // },
-            // "/statistics/api/": {
-            //     target: "http://192.168.0.106:8028/statistics/",
-            //     changeOrigin: true, //是否进行跨域
-            //     secure: false,
-            //     pathRewrite: {
-            //         "/statistics/api/": "",
-            //     },
-            // },
-            // "/config/": {
-            //     target: "http://192.168.1.241:8999",
-            // },
+            "/hotspot/api/": {
+                target: "http://192.168.0.106:8018/hotspot/",
+                changeOrigin: true, //是否进行跨域
+                secure: false,
+                pathRewrite: {
+                    "/hotspot/api/": "",
+                },
+            },
+            "/statistics/api/": {
+                target: "http://192.168.0.106:8028/statistics/",
+                changeOrigin: true, //是否进行跨域
+                secure: false,
+                pathRewrite: {
+                    "/statistics/api/": "",
+                },
+            },
+            "^/config/": {
+                target: "http://192.168.1.241:8999",
+            },
             "^/base/": {
-                target: "http://localhost:8848/base/",
+                target: "http://localhost:18848/base/",
                 changeOrigin: true, //是否进行跨域
                 pathRewrite: {
                     "^/base/": "",

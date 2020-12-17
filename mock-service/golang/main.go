@@ -12,13 +12,13 @@ func main() {
 			"apps": []gin.H{
 				{
 					"name":       "vue",
-					"entry":      "http://localhost:10001/",
+					"entry":      "http://127.0.0.1:10001/",
 					"container":  "#vue",
 					"activeRule": "/vue",
 				},
 				{
 					"name":       "ncda",
-					"entry":      "http://localhost:10002/ncda/",
+					"entry":      "http://127.0.0.1:10002/ncda/",
 					"container":  "#ncda",
 					"activeRule": "/ncda",
 				},
@@ -46,5 +46,5 @@ func main() {
 			},
 		})
 	})
-	_ = r.Run(":8848")
+	_ = r.Run(":18848")
 }
