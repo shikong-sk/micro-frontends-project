@@ -1,1 +1,8 @@
+# 配置文件
 port: 18848
+mysql:
+  user: root
+  passwd: root
+  database: micro-frontends
+  server: 192.168.3.104
+  port: 3306

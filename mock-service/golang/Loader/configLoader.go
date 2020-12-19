@@ -7,15 +7,23 @@ import (
 )
 
 type Config struct {
-	Version string `yaml:"version"`
 	Port    int  `yaml:"port"`
+	Mysql	MysqlConfig
+}
+
+type MysqlConfig struct{
+	User string `yaml:"user"`
+	Passwd string `yaml:"passwd"`
+	Server string `yaml:"server"`
+	Port int `yaml:"port"`
+	Database string `yaml:"database"`
 }
 
 func LoadConfig() Config {
 	// 默认配置
 	conf := Config{
-		Version: "dev",
 		Port:    18848,
+		Mysql: MysqlConfig{User: "root", Passwd: "", Server: "127.0.0.1", Port: 3306},
 	}
 
 	// 尝试读取配置文件
@@ -34,6 +42,6 @@ func LoadConfig() Config {
 		panic("端口不合法")
 	}
 
-	fmt.Println(conf, conf.Version, conf.Port)
+	fmt.Println(conf, conf.Port)
 	return conf
 }
