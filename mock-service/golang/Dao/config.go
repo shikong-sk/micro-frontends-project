@@ -2,7 +2,7 @@ package Dao
 
 import (
 	"fmt"
-	"mosk-service/Database"
+	"mock-service/Database"
 )
 
 type Config struct {

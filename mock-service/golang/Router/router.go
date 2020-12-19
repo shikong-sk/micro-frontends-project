@@ -2,7 +2,7 @@ package Router
 
 import (
 	"github.com/gin-gonic/gin"
-	"mosk-service/Controller"
+	"mock-service/Controller"
 )
 
 func SetupRouter(r *gin.Engine) {

@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"mosk-service/Dao"
-	"mosk-service/Database"
-	"mosk-service/Loader"
-	"mosk-service/Router"
+	"mock-service/Dao"
+	"mock-service/Database"
+	"mock-service/Loader"
+	"mock-service/Router"
 	"strconv"
 )
 
