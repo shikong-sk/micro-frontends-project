@@ -2,9 +2,12 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"strconv"
 )
 
 func main() {
+	conf := loadConfig()
+
 	gin.SetMode(gin.DebugMode)
 	r := gin.Default()
 	r.GET("/base/config", func(c *gin.Context) {
@@ -46,5 +49,6 @@ func main() {
 			},
 		})
 	})
-	_ = r.Run(":18848")
+
+	_ = r.Run(":" + strconv.Itoa(conf.Port))
 }

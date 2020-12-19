@@ -1,10 +1,14 @@
 <template>
-		<nav-bar :collapse="collapse" style="z-index: 999999"></nav-bar>
+		<nav-bar v-model:collapse="collapse"
+		         :collapse="collapse"
+		         style="z-index: 999999">
+		</nav-bar>
+
 		<router-view/>
 </template>
 
 <script lang="ts">
-	import {defineComponent, ref} from 'vue';
+	import {defineComponent, ref,watch,provide} from 'vue';
 	import navBar                 from "@/components/nav-bar/index.vue";
 	import {useStore}             from "vuex";
 
@@ -15,18 +19,16 @@
 			msg: String,
 		},
 		setup(){
+			let collapse = ref<boolean>(true);
+			provide("collapseNav",collapse);
 			const collapseChange = (collapse: boolean) => {
 				console.log("collapseChange",collapse)
 			};
 			return {
+				collapse,
 				$store:useStore(),
 				collapseChange,
 			}
-		},
-		data() {
-			return {
-				collapse: true,
-			};
 		},
 		mounted() {
 			console.log("MainApp", this);
@@ -35,11 +37,9 @@
 		},
 		watch: {
 			collapse(v: boolean) {
-				console.log("collapse",v);
 				this.collapseChange(v);
 			},
 		},
-		methods: {}
 	});
 </script>
 

@@ -49,11 +49,9 @@
 			let collapse = ref<boolean>(props.collapse)
 			let isCollapse = computed({
 				get:  () => {
-					console.log("collapse computed get",collapse.value);
 					return collapse.value;
 				},
 				set:  (v)=> {
-					console.log("collapse computed", v);
 					context.emit("update:collapse", v);
 					collapse.value = v;
 				},
@@ -74,13 +72,10 @@
 				console.log("handleSelect", key, keyPath);
 				switch (key) {
 					case "home":
-						// this.$router.push({name:"Home"});
-						// window.open(window.location.origin + "/","_SELF");
 						window.location.href = "/";
 						break;
 					case "ncda":
 						window.open(window.location.origin + "/ncda","_SELF");
-                        this.$router.push({path:"/ncda"})
 						globalStateActions.setGlobalState({"navIndex":"ncda"});
 						break;
 					case "vue":
@@ -91,9 +86,7 @@
 				}
 			},
 			collapseChange() {
-				console.log("this.isCollapse.value ",this.isCollapse );
 				this.isCollapse = !this.isCollapse;
-				console.log("this.isCollapse.value ",this.isCollapse );
 			},
 		}
 	})

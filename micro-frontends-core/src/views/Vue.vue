@@ -1,28 +1,40 @@
 <template>
-	<div id="vue"></div>
+	<div id="vue" ref="container"></div>
 </template>
 
-<script>
-	import {start} from "qiankun";
-	import { globalStateActions } from "../main";
+<script lang="ts">
+	import {defineComponent, ref, onMounted, onUnmounted, inject, watch} from "vue";
+	import {start}                                                       from "qiankun";
+	import {globalStateActions}                                          from "@/main";
+	import useNavBar                                from "@/components/nav-bar/useNavBar";
 
-	export default {
+	export default defineComponent({
 		name: "Vue",
-		mounted() {
-			this.$nextTick(()=>{
+		setup(props, context) {
+			let collapseNav = ref(inject("collapseNav"));
+			watch(collapseNav, (val) => {
+				console.log("collapseNav - vue", val);
+			});
+
+			let container = ref();
+			useNavBar(container, 20);
+
+
+			onMounted(() => {
+				// @ts-ignore
 				if (!window.qiankunStarted) {
+					// @ts-ignore
 					window.qiankunStarted = true;
 					start();
 				}
-				globalStateActions.setGlobalState({"containerReady":true});
-			})
+				globalStateActions.setGlobalState({"containerReady": true});
+			});
+			onUnmounted(() => {
+				globalStateActions.setGlobalState({"containerReady": false});
+			});
+			return {
+				container
+			};
 		},
-		unmounted() {
-			globalStateActions.setGlobalState({"containerReady":false});
-		}
-	}
+	});
 </script>
-
-<style scoped>
-
-</style>
