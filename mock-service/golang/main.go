@@ -2,32 +2,21 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"mosk-service/Loader"
+	"mosk-service/Router"
 	"strconv"
 )
 
 func main() {
-	conf := loadConfig()
+	// 加载配置文件
+	conf := Loader.LoadConfig()
 
 	gin.SetMode(gin.DebugMode)
 	r := gin.Default()
-	r.GET("/base/config", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"apps": []gin.H{
-				{
-					"name":       "vue",
-					"entry":      "http://127.0.0.1:10001/",
-					"container":  "#vue",
-					"activeRule": "/vue",
-				},
-				{
-					"name":       "ncda",
-					"entry":      "http://127.0.0.1:10002/ncda/",
-					"container":  "#ncda",
-					"activeRule": "/ncda",
-				},
-			},
-		})
-	})
+
+	// 注册全局路由
+	Router.SetupRouter(r)
+
 	r.GET("/ncda/basicinfo/region/get", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"code": 200,

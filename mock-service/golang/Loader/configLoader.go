@@ -1,4 +1,4 @@
-package main
+package Loader
 
 import (
 	"fmt"
@@ -11,18 +11,21 @@ type Config struct {
 	Port    int  `yaml:"port"`
 }
 
-func loadConfig() Config {
+func LoadConfig() Config {
 	// 默认配置
 	conf := Config{
 		Version: "dev",
 		Port:    18848,
 	}
-	
+
 	// 尝试读取配置文件
 	var c, err = ioutil.ReadFile("./config.yml")
 	if err == nil {
 		fmt.Println(c, "\n", string(c))
-		_ = yaml.Unmarshal(c, &conf)
+		err = yaml.Unmarshal(c, &conf)
+		if err != nil {
+			panic("配置文件解析失败, 请检查格式是否正确")
+		}
 	} else {
 		fmt.Println("未读取到配置文件, 使用默认配置启动")
 	}
