@@ -2,13 +2,12 @@ package Controller
 
 import "github.com/gin-gonic/gin"
 
-func SetupBaseRouter(r *gin.Engine) *gin.Engine {
+func SetupBaseRouter(r *gin.Engine){
 	router := r.Group("/base")
 	getConfig(router)
-	return r
 }
 
-func getConfig(r *gin.RouterGroup) *gin.RouterGroup {
+func getConfig(r *gin.RouterGroup){
 	r.GET("/config", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"apps": []gin.H{
@@ -27,5 +26,4 @@ func getConfig(r *gin.RouterGroup) *gin.RouterGroup {
 			},
 		})
 	})
-	return r
 }

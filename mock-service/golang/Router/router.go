@@ -5,7 +5,6 @@ import (
 	"mosk-service/Controller"
 )
 
-func SetupRouter(r *gin.Engine) *gin.Engine {
+func SetupRouter(r *gin.Engine) {
 	Controller.SetupBaseRouter(r)
-	return r
 }
