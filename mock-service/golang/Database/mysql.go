@@ -7,6 +7,8 @@ import (
 	"strconv"
 )
 
+var MysqlDB *sqlx.DB
+
 func MysqlConnection(server string, port int, user string, passwd string, database string, maxOpenConn int, maxIdleConn int) *sqlx.DB {
 	dataSource := user + ":" + passwd + "@tcp(" + server + ":" + strconv.Itoa(port) + ")/"
 	fmt.Println("dataSource", dataSource)
@@ -36,8 +38,6 @@ func MysqlConnection(server string, port int, user string, passwd string, databa
 
 	_, _ = db.Query("use " + database)
 
-	defer func() {
-		_ = db.Close()
-	}()
+	MysqlDB = db
 	return db
 }

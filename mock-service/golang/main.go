@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"mosk-service/Dao"
 	"mosk-service/Database"
 	"mosk-service/Loader"
 	"mosk-service/Router"
@@ -12,7 +14,7 @@ func main() {
 	// 加载配置文件
 	conf := Loader.LoadConfig()
 
-	Database.MysqlConnection(
+	mysql := Database.MysqlConnection(
 		conf.Mysql.Server,
 		conf.Mysql.Port,
 		conf.Mysql.User,
@@ -20,6 +22,9 @@ func main() {
 		conf.Mysql.Database,
 		conf.Mysql.MaxOpenConn,
 		conf.Mysql.MaxIdleConn)
+
+	Dao.GetConfigBySetting("base")
+	fmt.Println(mysql,Database.MysqlDB)
 
 	gin.SetMode(gin.DebugMode)
 	r := gin.Default()
