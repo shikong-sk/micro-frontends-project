@@ -6,3 +6,5 @@ mysql:
   database: micro-frontends
   server: 192.168.3.104
   port: 3306
+  maxOpenConn: 100
+  maxIdleConn: 10

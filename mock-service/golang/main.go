@@ -17,7 +17,9 @@ func main() {
 		conf.Mysql.Port,
 		conf.Mysql.User,
 		conf.Mysql.Passwd,
-		conf.Mysql.Database)
+		conf.Mysql.Database,
+		conf.Mysql.MaxOpenConn,
+		conf.Mysql.MaxIdleConn)
 
 	gin.SetMode(gin.DebugMode)
 	r := gin.Default()

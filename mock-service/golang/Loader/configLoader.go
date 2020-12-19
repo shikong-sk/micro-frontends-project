@@ -6,24 +6,35 @@ import (
 	"io/ioutil"
 )
 
+// 全局配置
 type Config struct {
-	Port    int  `yaml:"port"`
-	Mysql	MysqlConfig
+	Port  int `yaml:"port"`
+	Mysql MysqlConfig
 }
 
-type MysqlConfig struct{
-	User string `yaml:"user"`
-	Passwd string `yaml:"passwd"`
-	Server string `yaml:"server"`
-	Port int `yaml:"port"`
-	Database string `yaml:"database"`
+// Mysql配置
+type MysqlConfig struct {
+	User        string `yaml:"user"`
+	Passwd      string `yaml:"passwd"`
+	Server      string `yaml:"server"`
+	Port        int    `yaml:"port"`
+	Database    string `yaml:"database"`
+	MaxOpenConn int    `yaml:"maxOpenConn"`
+	MaxIdleConn int    `yaml:"maxIdleConn"`
 }
 
 func LoadConfig() Config {
 	// 默认配置
 	conf := Config{
-		Port:    18848,
-		Mysql: MysqlConfig{User: "root", Passwd: "", Server: "127.0.0.1", Port: 3306},
+		Port: 18848,
+		Mysql: MysqlConfig{
+			User:        "root",
+			Passwd:      "",
+			Server:      "127.0.0.1",
+			Port:        3306,
+			MaxOpenConn: 10,
+			MaxIdleConn: 5,
+		},
 	}
 
 	// 尝试读取配置文件
@@ -38,7 +49,7 @@ func LoadConfig() Config {
 		fmt.Println("未读取到配置文件, 使用默认配置启动")
 	}
 
-	if conf.Port <= 0 || conf.Port > 65535{
+	if conf.Port <= 0 || conf.Port > 65535 {
 		panic("端口不合法")
 	}
 
