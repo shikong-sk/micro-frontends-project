@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"mock-service/Dao"
 	"mock-service/Database"
 	"mock-service/Loader"
 	"mock-service/Router"
@@ -25,8 +24,6 @@ func main() {
 		conf.Mysql.Database,
 		conf.Mysql.MaxOpenConn,
 		conf.Mysql.MaxIdleConn)
-
-	Dao.GetConfigBySetting("base")
 
 	gin.SetMode(gin.DebugMode)
 	r := gin.Default()

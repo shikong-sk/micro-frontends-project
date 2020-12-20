@@ -8,3 +8,5 @@ mysql:
   port: 3306
   maxOpenConn: 100
   maxIdleConn: 10
+session:
+  secert: skcks
