@@ -1,6 +1,7 @@
 package Dao
 
 import (
+	"encoding/json"
 	"fmt"
 	"mock-service/Database"
 )
@@ -11,9 +12,10 @@ type Config struct {
 }
 
 func GetConfigBySetting(setting string) []Config {
-	fmt.Println(Database.MysqlDB.Ping() != nil)
 	var data []Config
-	_ = Database.MysqlDB.Select(&data, "SELECT setting, value FROM `micro-frontends`.config WHERE setting = ?", setting)
-	fmt.Println(data)
+	sql := "SELECT setting, value FROM `micro-frontends`.config WHERE setting = ?"
+	_ = Database.MysqlDB.Select(&data, sql, setting)
+	j, _ := json.Marshal(data)
+	fmt.Println(string(j))
 	return data
 }

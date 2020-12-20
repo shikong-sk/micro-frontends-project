@@ -7,6 +7,7 @@ import (
 	"mock-service/Database"
 	"mock-service/Loader"
 	"mock-service/Router"
+	"mock-service/Session"
 	"strconv"
 )
 
@@ -14,7 +15,9 @@ func main() {
 	// 加载配置文件
 	conf := Loader.LoadConfig()
 
-	mysql := Database.MysqlConnection(
+	fmt.Println(Session.Store)
+
+	Database.MysqlConnection(
 		conf.Mysql.Server,
 		conf.Mysql.Port,
 		conf.Mysql.User,
@@ -24,10 +27,10 @@ func main() {
 		conf.Mysql.MaxIdleConn)
 
 	Dao.GetConfigBySetting("base")
-	fmt.Println(mysql,Database.MysqlDB)
 
 	gin.SetMode(gin.DebugMode)
 	r := gin.Default()
+	Session.InitSession(r, conf.Session.Secret)
 
 	// 注册全局路由
 	Router.SetupRouter(r)

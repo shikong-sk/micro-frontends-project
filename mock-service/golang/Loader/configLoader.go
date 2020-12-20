@@ -8,8 +8,9 @@ import (
 
 // 全局配置
 type Config struct {
-	Port  int `yaml:"port"`
-	Mysql MysqlConfig
+	Port    int           `yaml:"port"`
+	Mysql   MysqlConfig   `yaml:"mysql"`
+	Session SessionConfig `yaml:"session"`
 }
 
 // Mysql配置
@@ -21,6 +22,11 @@ type MysqlConfig struct {
 	Database    string `yaml:"database"`
 	MaxOpenConn int    `yaml:"maxOpenConn"`
 	MaxIdleConn int    `yaml:"maxIdleConn"`
+}
+
+// Session 配置
+type SessionConfig struct {
+	Secret string `yaml:"secret"`
 }
 
 func LoadConfig() Config {
