@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
+	"os"
+	"path/filepath"
 )
 
 // 全局配置
@@ -43,8 +45,13 @@ func LoadConfig() Config {
 		},
 	}
 
+	runTimePath, _ := filepath.Abs(filepath.Dir(os.Args[0]))
 	// 尝试读取配置文件
-	var c, err = ioutil.ReadFile("./config.yml")
+	var c, err = ioutil.ReadFile(runTimePath + "/config.yml")
+	if err != nil {
+		c, err = ioutil.ReadFile("config.yml")
+	}
+
 	if err == nil {
 		fmt.Println(c, "\n", string(c))
 		err = yaml.Unmarshal(c, &conf)

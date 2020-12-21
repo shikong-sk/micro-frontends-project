@@ -2,9 +2,9 @@
 port: 18848
 mysql:
   user: root
-  passwd: root
-  database: micro-frontends
-  server: 192.168.3.104
+  passwd: 123456a
+  database: micro_frontends
+  server: 192.168.1.241
   port: 3306
   maxOpenConn: 100
   maxIdleConn: 10

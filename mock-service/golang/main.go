@@ -16,14 +16,24 @@ func main() {
 
 	fmt.Println(Session.Store)
 
-	Database.MysqlConnection(
-		conf.Mysql.Server,
-		conf.Mysql.Port,
-		conf.Mysql.User,
-		conf.Mysql.Passwd,
-		conf.Mysql.Database,
-		conf.Mysql.MaxOpenConn,
-		conf.Mysql.MaxIdleConn)
+	func(){
+		defer func() {
+			err := recover()
+			if err != nil {
+				_, _ = fmt.Fprintln(gin.DefaultErrorWriter, err)
+			}
+		}()
+
+		Database.MysqlConnection(
+			conf.Mysql.Server,
+			conf.Mysql.Port,
+			conf.Mysql.User,
+			conf.Mysql.Passwd,
+			conf.Mysql.Database,
+			conf.Mysql.MaxOpenConn,
+			conf.Mysql.MaxIdleConn)
+	}()
+
 
 	gin.SetMode(gin.DebugMode)
 	r := gin.Default()

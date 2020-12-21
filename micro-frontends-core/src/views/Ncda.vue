@@ -4,13 +4,13 @@
 
 <script lang="ts">
     import {defineComponent, ref} from "vue";
-    import useNavBar              from "@/components/nav-bar/useNavBar";
+    import UseNavBar              from "@/components/nav-bar/UseNavBar";
 
     export default defineComponent({
 		name:"Ncda",
 		setup(props,context){
 			let ncda = ref();
-			useNavBar(ncda);
+			UseNavBar(ncda);
 
 			return {
 				ncda

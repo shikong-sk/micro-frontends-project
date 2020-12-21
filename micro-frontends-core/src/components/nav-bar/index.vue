@@ -13,19 +13,60 @@
 				<i class="el-icon-s-home"></i>
 				<template #title>主框架首页</template>
 			</el-menu-item>
-			<el-submenu index="1">
+			<el-submenu index="Project">
 				<template #title>
-					<i class="el-icon-location"></i>
-					<span>微前端1</span>
+					<i class="el-icon-menu"></i>
+					<span>微前端功能页</span>
 				</template>
 				<el-menu-item-group>
-					<template #title>微前端1</template>
-					<el-menu-item index="ncda">系统1</el-menu-item>
+					<el-menu-item index="ncda">
+						<template #title>NCDA 1.8 Beta</template>
+					</el-menu-item>
 				</el-menu-item-group>
 			</el-submenu>
+			<el-submenu index="Traefik">
+				<template #title>
+					<i class="el-icon-menu"></i>
+					<span>Traefik</span>
+				</template>
+				<el-menu-item-group>
+					<el-menu-item index="traefikUI">
+						<template #title>Traefik UI</template>
+					</el-menu-item>
+					<el-menu-item index="traefikDoc">
+						<template #title>Traefik 文档</template>
+					</el-menu-item>
+				</el-menu-item-group>
+			</el-submenu>
+			<el-submenu index="Remco">
+				<template #title>
+					<i class="el-icon-menu"></i>
+					<span>Remco</span>
+				</template>
+				<el-menu-item-group>
+					<el-menu-item index="remcoDoc">
+						<template #title>remcoDoc 文档</template>
+					</el-menu-item>
+				</el-menu-item-group>
+			</el-submenu>
+			<el-submenu index="Consul">
+				<template #title>
+					<i class="el-icon-menu"></i>
+					<span>Consul</span>
+				</template>
+				<el-menu-item-group>
+					<el-menu-item index="ConsulManager">
+						<template #title>Consul 集群管理</template>
+					</el-menu-item>
+				</el-menu-item-group>
+			</el-submenu>
+			<el-menu-item index="Portainer">
+				<i class="el-icon-monitor"></i>
+				<template #title>Portainer</template>
+			</el-menu-item>
 			<el-menu-item index="vue">
-				<i class="el-icon-menu"></i>
-				<template #title>导航二</template>
+				<i class="el-icon-orange"></i>
+				<template #title>Vue3 + Ts 测试页面</template>
 			</el-menu-item>
 		</el-menu>
 	</div>
@@ -36,32 +77,32 @@
 	import {globalStateActions}             from "@/main";
 
 	export default defineComponent({
-		emits:[
-			"collapse","update:collapse"
+		emits: [
+			"collapse", "update:collapse"
 		],
-		props:{
+		props: {
 			collapse: {
-				type:Boolean,
+				type: Boolean,
 				required: true
 			},
 		},
-		setup(props,context){
-			let collapse = ref<boolean>(props.collapse)
+		setup(props, context) {
+			let collapse = ref<boolean>(props.collapse);
 			let isCollapse = computed({
-				get:  () => {
+				get: () => {
 					return collapse.value;
 				},
-				set:  (v)=> {
+				set: (v) => {
 					context.emit("update:collapse", v);
 					collapse.value = v;
 				},
-			})
+			});
 			return {
 				collapse,
 				isCollapse
-			}
+			};
 		},
-		methods:{
+		methods: {
 			handleOpen(key: any, keyPath: any) {
 				console.log(key, keyPath);
 			},
@@ -73,15 +114,35 @@
 				switch (key) {
 					case "home":
 						window.location.href = "/";
+						globalStateActions.setGlobalState({"navIndex": "/"});
 						break;
 					case "ncda":
-						window.open(window.location.origin + "/ncda","_SELF");
-						globalStateActions.setGlobalState({"navIndex":"ncda"});
+						window.open(window.location.origin + "/ncda", "_SELF");
+						globalStateActions.setGlobalState({"navIndex": "ncda"});
 						break;
 					case "vue":
-						window.open(window.location.origin + "/vue","_SELF");
-                        globalStateActions.setGlobalState({"navIndex":"ncda"});
-						// this.$router.push({path:"/vue"})
+						window.open(window.location.origin + "/vue", "_SELF");
+						globalStateActions.setGlobalState({"navIndex": "vue"});
+						break;
+					case "traefikUI":
+						window.open(window.location.origin + "/traefikUI", "_SELF");
+						globalStateActions.setGlobalState({"navIndex": "traefikUI"});
+						break;
+					case "traefikDoc":
+						window.open(window.location.origin + "/traefikDoc", "_SELF");
+						globalStateActions.setGlobalState({"navIndex": "traefikDoc"});
+						break;
+					case "remcoDoc":
+						window.open(window.location.origin + "/remcoDoc", "_SELF");
+						globalStateActions.setGlobalState({"navIndex": "remcoDoc"});
+						break;
+					case "ConsulManager":
+						window.open(window.location.origin + "/consulManager", "_SELF");
+						globalStateActions.setGlobalState({"navIndex": "consulManager"});
+						break;
+					case "Portainer":
+						window.open(window.location.origin + "/portainer", "_SELF");
+						globalStateActions.setGlobalState({"navIndex": "Portainer"});
 						break;
 				}
 			},
@@ -89,7 +150,7 @@
 				this.isCollapse = !this.isCollapse;
 			},
 		}
-	})
+	});
 </script>
 
 <style scoped>
@@ -102,6 +163,7 @@
 	}
 
 	.nav-bar {
+		text-align: left;
 		position: fixed;
 		height: 100vh;
 		z-index: 9999999;

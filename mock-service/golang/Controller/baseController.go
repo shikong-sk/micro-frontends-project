@@ -2,39 +2,54 @@ package Controller
 
 import (
 	"github.com/gin-gonic/gin"
+	"mock-service/Common/Error"
 	"mock-service/Dao"
+	"mock-service/Database"
 )
 
 func SetupBaseRouter(r *gin.Engine) {
 	router := r.Group("/base")
-	getBaseConfig(router)
 	getConfig(router)
+	getApps(router)
+	getAppsWithName(router)
 }
 
 func getConfig(r *gin.RouterGroup) {
 	r.GET("/getConfig", func(context *gin.Context) {
-		data := Dao.GetConfigBySetting("base")
-		context.JSON(200, data)
+		if Database.MysqlDB != nil {
+			data := Dao.GetConfigBySetting("base")
+			context.JSON(200, data)
+		} else {
+			context.JSON(500, Error.DatabaseConnectError)
+		}
 	})
 }
 
-func getBaseConfig(r *gin.RouterGroup) {
-	r.GET("/config", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"apps": []gin.H{
-				{
-					"name":       "vue",
-					"entry":      "http://127.0.0.1:10001/",
-					"container":  "#vue",
-					"activeRule": "/vue",
-				},
-				{
-					"name":       "ncda",
-					"entry":      "http://127.0.0.1:10002/ncda/",
-					"container":  "#ncda",
-					"activeRule": "/ncda",
-				},
-			},
-		})
+func getApps(r *gin.RouterGroup) {
+	r.GET("/apps", func(context *gin.Context) {
+		if Database.MysqlDB != nil {
+			data := Dao.GetApps()
+
+			context.JSON(200, gin.H{
+				"apps": data,
+			})
+		} else {
+			context.JSON(500, Error.DatabaseConnectError)
+		}
+	})
+}
+
+func getAppsWithName(r *gin.RouterGroup) {
+	r.GET("/apps/ByName", func(context *gin.Context) {
+		if Database.MysqlDB != nil {
+			name := context.Query("name")
+			data := Dao.GetAppsByName(name)
+
+			context.JSON(200, gin.H{
+				"apps": data,
+			})
+		} else {
+			context.JSON(500, Error.DatabaseConnectError)
+		}
 	})
 }

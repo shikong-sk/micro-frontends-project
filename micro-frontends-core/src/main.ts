@@ -33,32 +33,6 @@ const globalStateActions: MicroAppStateActions = initGlobalState(globalStateReco
 let containerReady = false;
 globalStateActions.onGlobalStateChange((state:Record<string, any>, prev:Record<string, any>)=>{
 	console.log("onGlobalStateChange",state,prev);
-	// if (state.containerReady){
-	// 	containerReady = true;
-	// } else {
-	// 	new Promise<boolean>((resolve, reject) => {
-	// 		let count = 0;
-	// 		let waitContainerLoading = () => {
-	// 			count++;
-	// 			if (count > 5) {
-	// 				reject(false);
-	// 			}
-	// 			setTimeout(() => {
-	// 				console.log(globalStateActions, globalStateRecord)
-	// 				globalStateActions.onGlobalStateChange((state) => {
-	// 					if (state.containerReady) {
-	// 						resolve(true);
-	// 					} else {
-	// 						waitContainerLoading();
-	// 					}
-	// 				})
-	// 			}, 0);
-	// 		}
-	// 		waitContainerLoading();
-	// 	}).then((r: boolean) => {
-	// 		containerReady = r;
-	// 	})
-	// }
 })
 export {globalStateActions};
 
@@ -202,7 +176,7 @@ let registerApps: RegistrableApp<any>[] = [];
 
 new Promise<void>((resolve) => {
 	// 从 外部接口 载入 子应用资源信息
-	api.baseApi.getConfig().then((response: any) => {
+	api.baseApi.getApps().then((response: any) => {
 		console.log(response);
 		let res = response.data;
 		let apps = res.apps || [];

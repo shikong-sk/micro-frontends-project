@@ -1,4 +1,4 @@
-import {inject, ref, watch, onMounted, Ref, nextTick} from "vue";
+import {inject, ref, watch, onMounted, Ref} from "vue";
 
 function useNavBar(containerRef: Ref, offset: number = 0) {
 	onMounted(() => {

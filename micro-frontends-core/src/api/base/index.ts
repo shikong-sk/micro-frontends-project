@@ -14,12 +14,12 @@ const axiosRequestConfig: AxiosRequestConfig = {
 const instance = getInstance(axiosRequestConfig);
 
 const api = {
-    getConfig:"/config/"
+    apps:"/apps/"
 }
 
 const baseApi = {
-    getConfig(){
-        return Get(instance,api.getConfig);
+    getApps(){
+        return Get(instance,api.apps);
     }
 }
 
