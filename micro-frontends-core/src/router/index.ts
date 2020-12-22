@@ -37,6 +37,16 @@ const routes: Array<RouteRecordRaw> = [
     component:()=>import("@/views/Portainer.vue")
   },
   {
+    path:"/dockerRepositories",
+    name:"DockerRepositories",
+    component:()=>import("@/views/DockerRepositories.vue")
+  },
+  {
+    path:"/minIO",
+    name:"MinIO",
+    component:()=>import("@/views/MinIO.vue")
+  },
+  {
     path: "/:vue(vue||vue/+.*)",
     name: 'Vue',
     component: () => import('@/views/Vue.vue')

@@ -1,16 +1,16 @@
 <template>
 	<div ref="frame" style="height: 100vh">
-		<iframe class="frame" src="http://192.168.3.2:9000"></iframe>
-		<!--<iframe class="frame" src="http://192.168.1.100:9000"></iframe>-->
+		<iframe class="frame" :src="target"></iframe>
 	</div>
 </template>
 
 <script lang="ts">
 	import {defineComponent, ref, onMounted, getCurrentInstance} from "vue";
 	import useNavBar                                             from "@/components/nav-bar/UseNavBar";
+	import {RouteRecord}                                         from "vue-router";
 
 	export default defineComponent({
-		name: "Portainer",
+		name: "MinIO",
 		setup: (prop, context) => {
 			let frame = ref(null);
 			console.log(frame);
@@ -24,28 +24,41 @@
 				ctx = internalInstance.appContext.config.globalProperties;
 			}
 
+			let target = ref<string>("http://192.168.3.2:20001 ");
+
 			onMounted(() => {
 				ctx.$notify({
-					title: '登录账号密码',
+					title: '认证参数',
+					customClass: "notify-medium",
 					message: '' +
-						'用户名：admin<br>' +
-						'密码：12345678',
+						'Access Key: AKIAIOSFODNN7EXAMPLE<br>' +
+						'Secret Key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
 					dangerouslyUseHTMLString: true,
 					position: 'bottom-right',
 					duration: 0
 				});
-
+				let route = ctx.$route;
+				let query = route.query;
+				if (query.target) {
+					target.value = "http://" + query.target;
+				}
 			});
 
 			return {
-				frame
+				frame,
+				target
 			};
 		},
-		methods: {}
 	});
 </script>
 
+<style>
+	.notify-medium {
+		width: 500px;
+	}
+</style>
 <style scoped>
+
 	.frame {
 		border: 0;
 		width: 100%;

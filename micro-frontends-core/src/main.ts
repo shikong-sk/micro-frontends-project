@@ -4,12 +4,13 @@ import router      from './router';
 import store       from './store';
 import ElementPlus from "element-plus";
 import 'element-plus/lib/theme-chalk/index.css';
+import '@/assets/icon/iconfont.css';
 
 import api from "@/api";
 
 const app = createApp(App).use(store).use(router);
 // 全局注册 API
-app.config.globalProperties.$api = api;
+app.config.globalProperties.$Api = api;
 app.use(ElementPlus);
 app.mount('#app');
 console.log(app);

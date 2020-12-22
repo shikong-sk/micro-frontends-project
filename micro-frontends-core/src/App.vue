@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-	import {defineComponent, ref,watch,provide} from 'vue';
+	import {defineComponent, ref,watch,provide,getCurrentInstance} from 'vue';
 	import navBar                 from "@/components/nav-bar/index.vue";
 	import {useStore}             from "vuex";
 
@@ -24,6 +24,7 @@
 			const collapseChange = (collapse: boolean) => {
 				console.log("collapseChange",collapse)
 			};
+
 			return {
 				collapse,
 				$store:useStore(),

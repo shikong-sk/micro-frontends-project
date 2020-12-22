@@ -1,6 +1,8 @@
-import baseApi from "@/api/base"
+import baseApi    from "@/api/base"
+import systemApi from "@/api/system";
 const Api = {
-    baseApi
+    baseApi,
+    systemApi
 }
 
 export default Api;

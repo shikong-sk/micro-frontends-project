@@ -67,6 +67,13 @@ module.exports = {
                     "^/base/": "",
                 },
             },
+            "^/system/": {
+                target: "http://localhost:18848/system/",
+                changeOrigin: true, //是否进行跨域
+                pathRewrite: {
+                    "^/system/": "",
+                },
+            },
         }
     }
 }
