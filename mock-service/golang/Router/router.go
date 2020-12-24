@@ -9,4 +9,5 @@ func SetupRouter(r *gin.Engine) {
 	Controller.SetupBaseRouter(r)
 	Controller.SetupTestRouter(r)
 	Controller.SetupSystemRouter(r)
+	Controller.SetupNcdaRouter(r)
 }
