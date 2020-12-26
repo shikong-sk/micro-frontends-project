@@ -45,7 +45,7 @@ func (t *TransportInterceptor) RoundTrip(request *http.Request) (*http.Response,
 	response.Header.Add("Access-Control-Allow-Origin", "*")
 	// You may want to check the Content-Type header to decide how to deal with
 	// the body. In this case, we're assuming it's text.
-	log.Print(string(body))
+	log.Println(string(body))
 
 	return response, err
 }

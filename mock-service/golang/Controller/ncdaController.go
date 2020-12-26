@@ -7,15 +7,19 @@ import (
 	"strings"
 )
 
-func SetupNcdaRouter(r *gin.Engine) {
-	router := r.Group("/ncda")
-	router.GET("/*path", func(context *gin.Context) {
-		target := "http://192.168.1.241:1080"
-		uri := context.Request.RequestURI
-		url := target + uri
-		fmt.Println(target, uri, url)
+type RouterLinked struct {
+	router  string
+	handler gin.HandlerFunc
+}
 
-		if strings.HasPrefix(uri, "/ncda/basicinfo/region/get") {
+const ncdaProxyTarget = "http://192.168.1.241:1080"
+
+var ncdaRouterLinked = make([]RouterLinked, 0, 10)
+
+func getRegionRouter() {
+	ncdaRouterLinked = append(ncdaRouterLinked, RouterLinked{
+		router: "/ncda/basicinfo/region/get",
+		handler: func(context *gin.Context) {
 			context.JSON(200, gin.H{
 				"code": 200,
 				"msg":  "OK",
@@ -35,7 +39,14 @@ func SetupNcdaRouter(r *gin.Engine) {
 					"deptId":            15,
 				},
 			})
-		} else if strings.HasPrefix(uri, "/ncda/base/device/find-by-id") {
+		},
+	})
+}
+
+func deviceFindById() {
+	ncdaRouterLinked = append(ncdaRouterLinked, RouterLinked{
+		router: "/ncda/base/device/find-by-id",
+		handler: func(context *gin.Context) {
 			context.JSON(200, gin.H{
 				"code": 200,
 				"msg":  nil,
@@ -79,7 +90,14 @@ func SetupNcdaRouter(r *gin.Engine) {
 					"isHotspot":            0,
 				},
 			})
-		} else if strings.HasPrefix(uri, "/ncda/index/tree-device-search") {
+		},
+	})
+}
+
+func treeDeviceSearch() {
+	ncdaRouterLinked = append(ncdaRouterLinked, RouterLinked{
+		router: "/ncda/index/tree-device-search",
+		handler: func(context *gin.Context) {
 			context.JSON(200, gin.H{
 				"code": 200,
 				"msg":  nil,
@@ -128,16 +146,23 @@ func SetupNcdaRouter(r *gin.Engine) {
 					"leaf": false,
 				},
 			})
-		} else if strings.HasPrefix(uri, "/ncda/hotspot/hotspot/hover-dialog/content") {
+		},
+	})
+}
+
+func hotspotHoverDialogContent() {
+	ncdaRouterLinked = append(ncdaRouterLinked, RouterLinked{
+		router: "/ncda/hotspot/hotspot/hover-dialog/content",
+		handler: func(context *gin.Context) {
 			context.JSON(200, gin.H{
 				"code": 200,
 				"msg":  "OK",
 				"data": gin.H{
-					"name":                "3.54人脸设备",
-					"deviceCode":          "72439149X00E05C680B22",
-					"mac":                 "00-E0-5C-68-0B-22",
-					"licenseplateLogList": []gin.H{},
-					"faceLogList": []gin.H{
+					"name":        "3.54人脸设备",
+					"deviceCode":  "72439149X00E05C680B22",
+					"mac":         "00-E0-5C-68-0B-22",
+					"faceLogList": []gin.H{},
+					"licenseplateLogList": []gin.H{
 						{
 							"deviceName":        "3.58人Bor车牌采集-桂就派出所-金色强城大门大大謝猛men-",
 							"vendor_code":       "72439149X",
@@ -145,7 +170,7 @@ func SetupNcdaRouter(r *gin.Engine) {
 							"device_code":       "72439149X78E14C6840FC",
 							"district_code":     "440605",
 							"sub_district_code": "440605530000",
-							"log_time":          1693421866,
+							"log_time":          1693421867,
 							"entrance_time":     1683087426630,
 							"gps_longitude":     113.164883,
 							"gps_latitude":      23.847736,
@@ -162,8 +187,32 @@ func SetupNcdaRouter(r *gin.Engine) {
 					},
 				},
 			})
-		} else {
-			Proxy.ServeHttpUrl(context.Writer, context.Request, target)
-		}
+		},
 	})
+}
+
+func SetupNcdaRouter(r *gin.Engine) {
+	getRegionRouter()
+	deviceFindById()
+	treeDeviceSearch()
+	hotspotHoverDialogContent()
+
+	fmt.Println(ncdaRouterLinked)
+	router := r.Group("/ncda")
+
+	router.GET("/*path", func(context *gin.Context) {
+		processProxyRouter(ncdaProxyTarget, context)
+	})
+}
+
+func processProxyRouter(target string, context *gin.Context) bool {
+	for _, routerLinked := range ncdaRouterLinked {
+		if strings.HasPrefix(context.Request.RequestURI, routerLinked.router) {
+			fmt.Println(strings.HasPrefix(context.Request.RequestURI, routerLinked.router))
+			routerLinked.handler(context)
+			return true
+		}
+	}
+	Proxy.ServeHttpUrl(context.Writer, context.Request, target)
+	return false
 }
